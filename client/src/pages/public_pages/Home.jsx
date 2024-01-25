@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
+import HomeBanner from '../../components/HomeBanner'
 
 const Home = () => {
   return (
-    <div>
-        <h1>Welcome home</h1>
-        <Link to={'/cart'}>View cart</Link>
-
+    <div className='flex flex-col w-full'>
+      <HomeBanner />
+      
     </div>
   )
 }

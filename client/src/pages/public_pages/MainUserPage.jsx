@@ -4,7 +4,7 @@ import Footer from "../../components/Footer"
 
 const MainUserPage = () => {
   return (
-    <div>
+    <div className="w-full bg-white flex flex-col justify-start items-center">
         <Navigation />
         <Outlet />
         <Footer />

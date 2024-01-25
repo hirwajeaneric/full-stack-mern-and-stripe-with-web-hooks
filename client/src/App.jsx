@@ -35,21 +35,21 @@ const App = () => {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="" elements={<MainUserPage />}>
+          <Route path="/" element={<MainUserPage />}>
             {/* Public pages  */}
-            <Route path="/" element={<Home />} />
-            <Route path="/products" elements={<Products />} />
-            <Route path="/product/:productId" elements={<ProductDetails />} />
-            <Route path="/signin" elements={<SignIn />} />
-            <Route path="/signup" elements={<SignUp />} />
-            <Route path="/reset-password" elements={<ResetPassword />} />
-            <Route path="/forgot-password" elements={<ForgotPassword />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/return" element={<Return />} />
+            <Route path="" element={<Home />} />
+            <Route path="products" elements={<Products />} />
+            <Route path="product/:productId" elements={<ProductDetails />} />
+            <Route path="signin" elements={<SignIn />} />
+            <Route path="signup" elements={<SignUp />} />
+            <Route path="reset-password" elements={<ResetPassword />} />
+            <Route path="forgot-password" elements={<ForgotPassword />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="checkout" element={<Checkout />} />
+            <Route path="return" element={<Return />} />
 
             {/* User-specific and restricted pages  */}
-            <Route path="/account" element={<UserPages />}>
+            <Route path="account" element={<UserPages />}>
               <Route path="" element={<Orders />} />
               <Route path="profile" element={<Profile />} />
               <Route path="orders" element={<Orders />} />
