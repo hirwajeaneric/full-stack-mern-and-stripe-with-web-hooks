@@ -38,12 +38,12 @@ const App = () => {
           <Route path="/" element={<MainUserPage />}>
             {/* Public pages  */}
             <Route path="" element={<Home />} />
-            <Route path="products" elements={<Products />} />
-            <Route path="product/:productId" elements={<ProductDetails />} />
-            <Route path="signin" elements={<SignIn />} />
-            <Route path="signup" elements={<SignUp />} />
-            <Route path="reset-password" elements={<ResetPassword />} />
-            <Route path="forgot-password" elements={<ForgotPassword />} />
+            <Route path="products" element={<Products />} />
+            <Route path="product/:productId" element={<ProductDetails />} />
+            <Route path="signin" element={<SignIn />} />
+            <Route path="signup" element={<SignUp />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="cart" element={<Cart />} />
             <Route path="checkout" element={<Checkout />} />
             <Route path="return" element={<Return />} />
@@ -58,10 +58,10 @@ const App = () => {
           </Route>
 
           {/* Dashboard Authenticaiton  */}
-          <Route path="/admin/signin" elements={<SignInAdmin />} />
-          <Route path="/admin/signup" elements={<SignUpAdmin />} />
-          <Route path="/admin/reset-password" elements={<ResetPasswordAdmin />} />
-          <Route path="/admin/forgot-password" elements={<ForgotPasswordAdmin />} />
+          <Route path="/admin/signin" element={<SignInAdmin />} />
+          <Route path="/admin/signup" element={<SignUpAdmin />} />
+          <Route path="/admin/reset-password" element={<ResetPasswordAdmin />} />
+          <Route path="/admin/forgot-password" element={<ForgotPasswordAdmin />} />
 
           {/* Dashboard Pages  */}
           <Route path="/dashboard" element={<DashboardMainPage />}>
