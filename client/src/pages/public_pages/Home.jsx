@@ -4,7 +4,6 @@ const Home = () => {
   return (
     <div className='flex flex-col w-full'>
       <HomeBanner />
-
     </div>
   )
 }
