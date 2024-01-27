@@ -1,7 +1,6 @@
-import User from "../models/user.js";
-import bcryptjs from 'bcryptjs';
-import { errorHandler } from "../utils/error.js";
-import jwt from 'jsonwebtoken';
+const User = require("../models/user.js");
+const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 /**
  * This is the sign up controller function.
@@ -9,7 +8,7 @@ import jwt from 'jsonwebtoken';
  * @param {Response} res response
  * @param {NextFunction} next next function
  */
-export const signup = async (req, res, next) => {
+const signup = async (req, res, next) => {
     const { fullName, email, password } = req.body;
     const hashedPassword = bcryptjs.hashSync(password, 10);
     const newUser = new User({ fullName, email, password: hashedPassword });
@@ -28,7 +27,7 @@ export const signup = async (req, res, next) => {
  * @param {Response} res response
  * @param {NextFunction} next next function
  */
-export const signin = async (req, res, next) => {
+const signin = async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
@@ -62,7 +61,7 @@ export const signin = async (req, res, next) => {
  * @param {Response} res response
  * @param {NextFunction} next next function
  */
-export const google = async (req, res, next) => {
+const google = async (req, res, next) => {
     try {
         const user = await User.findOne({ email: req.body.email });
         if (user) {
@@ -97,6 +96,13 @@ export const google = async (req, res, next) => {
     }
 }
 
-export const signout = (req, res) => {
+const signout = (req, res) => {
     res.clearCookie('access_token').status(200).json('Signout Success!');
+};
+
+module.exports = {
+    signup,
+    signin,
+    google,
+    signout
 };

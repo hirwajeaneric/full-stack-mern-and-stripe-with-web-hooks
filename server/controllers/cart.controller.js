@@ -1,6 +1,6 @@
-import CartItemModel from '../models/cartItem.js';
+const CartItemModel = require('../models/cartItem.js');
 
-export const addCartItem = async (req, res, next) => {
+const addCartItem = async (req, res, next) => {
     try {
         const itemExists = await CartItemModel.findOne({
             customerId: req.body.customerId,
@@ -42,7 +42,7 @@ export const addCartItem = async (req, res, next) => {
 };
 
 // List items
-export const listItems = async (req, res, next) => {
+const listItems = async (req, res, next) => {
     try {
         const items = await CartItemModel.find({ customerId: req.query.customerId });
         res.status(201).json({ items });
@@ -54,7 +54,7 @@ export const listItems = async (req, res, next) => {
 
 
 // Update cartItem 
-export const updateCartItem = async (req, res, next) => {
+const updateCartItem = async (req, res, next) => {
     try {
         const updatedCartItem = await CartItemModel.findByIdAndUpdate(
             req.query.id,
@@ -75,7 +75,7 @@ export const updateCartItem = async (req, res, next) => {
     }
 };
 
-export const deleteCart = async (req, res, next) => {
+const deleteCart = async (req, res, next) => {
     try {
         const deletedItem = await CartItemModel.findByIdAndDelete(req.query.id);
 

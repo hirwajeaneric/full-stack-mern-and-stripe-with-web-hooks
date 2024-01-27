@@ -1,9 +1,8 @@
-import { errorHandler } from "../utils/error.js";
-import bcryptjs from "bcryptjs";
-import UserModel from '../models/user.js';
+const bcryptjs = require("bcryptjs");
+const UserModel = require('../models/user.js');
 
 // Update user 
-export const updateUser = async (req, res, next) => {
+const updateUser = async (req, res, next) => {
     
     if (req.user.id !== req.params.id) {
         return next(errorHandler(401, "You can only update your own account!"));
@@ -36,7 +35,7 @@ export const updateUser = async (req, res, next) => {
     }
 };
 
-export const deleteUser = async (req, res, next) => {
+const deleteUser = async (req, res, next) => {
     if (req.user.id !== req.params.id) {
         return next(errorHandler(401, "You can only delete your account!"));
     }
@@ -47,4 +46,9 @@ export const deleteUser = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+}
+
+module.exports = {
+    updateUser,
+    deleteUser
 }
