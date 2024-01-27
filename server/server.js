@@ -16,6 +16,14 @@ app.use(cors(corsOptions));
 app.use(express.json());
 bodyParser.urlencoded({ extended: true })
 
+mongoose.connect('')
+.then(()=> {
+  console.log('Connected to MongoDB...');
+})
+.catch((err) => {
+  console.log(err);
+});
+
 // Checkout routes
 app.use('/', checkoutRouter);
 // Other end-points
