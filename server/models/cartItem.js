@@ -17,7 +17,7 @@ const CartItemSchema = new Schema({
         type: Number,
         required: true
     },
-    image: {
+    photo: {
         type: String,
         required: true
     },
