@@ -27,12 +27,14 @@ const Cart = () => {
     };
 
     return (
-        <div>
-            <h1>Cart</h1>
+        <section className="w-full flex flex-col justify-center items-center">
+            <div className="flex w-full flex-col mb-12 gap-2 max-w-screen-xl text-black justify-between items-start px-4 py-7 sm:px-6 lg:px-8 lg:pt-7">
+            <h1 className="text-3xl font-bold">Cart</h1>
             <form onSubmit={goToPayment}>
-                <button type='submit'>Checkout</button>
-            </form>
-        </div>
+                    <button type='submit'>Checkout</button>
+                </form>
+            </div>
+        </section>
     )
 }
 
