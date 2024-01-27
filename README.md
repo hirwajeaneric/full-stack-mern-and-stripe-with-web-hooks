@@ -1,1 +1,0 @@
-# full-stack-mern-and-stripe-with-web-hooks

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import SuccessAlert from "../../components/SuccessAlert";
 import ErrorAlert from "../../components/ErrorAlert";
 
@@ -23,8 +23,7 @@ const SignUp = () => {
     phone: '',
     email: '',
     password: '',
-    confirmPassword: '',
-    marketingAccept: ''
+    confirmPassword: ''
   });
 
   const clearInputs = () => {
@@ -33,8 +32,7 @@ const SignUp = () => {
       phone: '',
       email: '',
       password: '',
-      confirmPassword: '',
-      marketingAccept: ''
+      confirmPassword: ''
     })
   }
 
@@ -53,23 +51,21 @@ const SignUp = () => {
       return;
     } else {
       const { confirmPassword, ...rest } = user;
+    
+      setError({ title: '', description:''});
+     
       axios.post('http://localhost:4242/api/v1/cement-swift/auth/signup', rest)
         .then((response) => {
           if (response.status === 201) {
-            setMessage({
-              title: "Success",
-              description: response.data.message
-            });
-
+            setMessage({ title: "Success", description: response.data.message });
             clearInputs();
-
             setTimeout(() => {
               if (searchParams.get("redirect")) {
-                navigate(`/signin/${searchParams.get("redirect")}`);
+                navigate(`/signin?redirect=${searchParams.get("redirect")}`);
               } else {
                 navigate('/signin');
               }
-            }, 3000)
+            }, 3000);
           }
         })
         .catch(error => {
@@ -85,17 +81,13 @@ const SignUp = () => {
     <section className="bg-white">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
         <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
-          <img
-            alt="Night"
-            src="http://localhost:3000/images/1.jpg"
-            className="absolute inset-0 h-full w-full object-cover opacity-80"
-          />
+          <img alt="Night" src="http://localhost:3000/images/1.jpg" className="absolute inset-0 h-full w-full object-cover opacity-80" />
 
           <div className="hidden lg:relative lg:block lg:p-12">
-            <a className="block text-white" href="/">
+            <Link className="block text-white" to="/">
               <span className="sr-only">Home</span>
               <img src="http://localhost:3000/images/favicon.png" width={80} alt="" />
-            </a>
+            </Link>
 
             <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">Welcome to Cement Swift</h2>
 
@@ -106,22 +98,15 @@ const SignUp = () => {
           </div>
         </section>
 
-        <main
-          className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6"
-        >
+        <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
           <div className="max-w-xl lg:max-w-3xl">
             <div className="relative -mt-16 block lg:hidden">
-              <a
-                className="inline-flex h-16 w-16 items-center justify-center rounded-md bg-white text-blue-600 sm:h-20 sm:w-20"
-                href="/"
-              >
+              <Link className="inline-flex h-16 w-16 items-center justify-center rounded-md bg-white text-blue-600 sm:h-20 sm:w-20" to="/">
                 <span className="sr-only">Home</span>
                 <img src="http://localhost:3000/images/favicon.png" width={80} alt="" />
-              </a>
+              </Link>
 
-              <h1 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-                Welcome to Cement Swift
-              </h1>
+              <h1 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">Welcome to Cement Swift</h1>
 
               <p className="mt-4 leading-relaxed text-gray-500">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam,
@@ -143,33 +128,26 @@ const SignUp = () => {
               </div>
 
               <div className="col-span-6">
-
-                <label htmlFor="FirstName" className="block text-sm font-medium text-gray-700">
-                  Full Name
-                </label>
-
+                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Full Name</label>
                 <input
                   type="text"
                   id="fullName"
                   name="fullName"
                   required
-                  value={user.fullName}
+                  value={user.fullName || ''}
                   onChange={handleInputs}
                   className="mt-1 w-full p-3 rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
                 />
               </div>
 
               <div className="col-span-6">
-                <label htmlFor="LastName" className="block text-sm font-medium text-gray-700">
-                  Phone number
-                </label>
-
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone number</label>
                 <input
                   type="tel"
                   id="phone"
                   name="phone"
                   required
-                  value={user.phone}
+                  value={user.phone || ''}
                   onChange={handleInputs}
                   className="mt-1 w-full p-3 rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
                 />
@@ -177,13 +155,12 @@ const SignUp = () => {
 
               <div className="col-span-6">
                 <label htmlFor="Email" className="block text-sm font-medium text-gray-700"> Email </label>
-
                 <input
                   type="email"
                   id="Email"
                   name="email"
                   required
-                  value={user.email}
+                  value={user.email || ''}
                   onChange={handleInputs}
                   className="mt-1 w-full p-3 rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
                 />
@@ -191,38 +168,32 @@ const SignUp = () => {
 
               <div className="col-span-6">
                 <label htmlFor="Password" className="block text-sm font-medium text-gray-700"> Password </label>
-
                 <input
                   type="password"
                   id="Password"
                   name="password"
                   required
-                  value={user.password}
+                  value={user.password || ''}
                   onChange={handleInputs}
                   className="mt-1 w-full p-3 rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
                 />
               </div>
 
               <div className="col-span-6">
-                <label htmlFor="PasswordConfirmation" className="block text-sm font-medium text-gray-700">
-                  Password Confirmation
-                </label>
-
+                <label htmlFor="PasswordConfirmation" className="block text-sm font-medium text-gray-700">Password Confirmation</label>
                 <input
                   type="password"
                   id="PasswordConfirmation"
-                  name="passwordConfirmation"
+                  name="confirmPassword"
                   required
-                  value={user.passwordConfirmation}
+                  value={user.confirmPassword || ''}
                   onChange={handleInputs}
                   className="mt-1 w-full p-3 rounded-md border-slate-500 bg-white text-sm text-gray-700 shadow-sm"
                 />
               </div>
 
               <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                <button type="submit"
-                  className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
-                >
+                <button type="submit" className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
                   Create an account
                 </button>
 

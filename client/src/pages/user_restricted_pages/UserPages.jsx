@@ -3,7 +3,7 @@ import SimpleUserNavigationBar from "../../components/SimpleUserNavigationBar"
 
 const UserPages = () => {
   return (
-    <div>
+    <div className="">
         <SimpleUserNavigationBar />
         <Outlet />
     </div>

@@ -9,9 +9,9 @@ const jwt = require('jsonwebtoken');
  * @param {NextFunction} next next function
  */
 const signup = async (req, res, next) => {
-    const { fullName, email, password } = req.body;
+    const { fullName, email, phone, password } = req.body;
     const hashedPassword = bcryptjs.hashSync(password, 10);
-    const newUser = new User({ fullName, email, password: hashedPassword });
+    const newUser = new User({ fullName, email, phone, password: hashedPassword });
 
     try {
         await newUser.save();
@@ -46,7 +46,9 @@ const signin = async (req, res, next) => {
         res
             .cookie('access_token', token, { httpOnly: true, expires: expiryDate })
             .status(200)
-            .json(rest);
+            .json({ 
+                user: rest
+            });
 
     } catch (error) {
         next(error);

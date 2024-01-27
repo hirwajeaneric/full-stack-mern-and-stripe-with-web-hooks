@@ -1,4 +1,5 @@
-import { Link, NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom";
+import { MdOutlineShoppingCart } from "react-icons/md";
 
 const Navigation = () => {
   return (
@@ -8,7 +9,14 @@ const Navigation = () => {
         <div className="flex gap-8 items-center">
           <NavLink to={'/'}>Home</NavLink>
           <NavLink to={'/products'}>Shop</NavLink>
-          <NavLink to={'/signin'} className="text-white bg-black px-5 py-3 rounded-lg">Login</NavLink>
+          {localStorage.getItem('user') && 
+            <NavLink to={'/account'}>My Profile</NavLink>
+          }
+          {!localStorage.getItem('user') && <NavLink to={'/signin'} className="text-white bg-black px-5 py-3 rounded-lg">Login</NavLink>}
+          {localStorage.getItem('user') && 
+            <NavLink to={'/cart'} className="text-black">
+              <MdOutlineShoppingCart className="text-2xl"/>
+            </NavLink>}
         </div>
       </div>
     </nav>

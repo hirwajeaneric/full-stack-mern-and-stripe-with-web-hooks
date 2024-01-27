@@ -36,11 +36,11 @@ const ProductDetails = () => {
           <h3 className="mt-5 text-lg font-bold">Description</h3>
           <p className="mt-1 text-sm text-gray-700">{product.description}</p>
           {
-            localStorage.getItem('customer_access_token') &&
+            localStorage.getItem('user') &&
             <button type="submit" className="block w-full rounded bg-black px-12 py-3 text-sm text-center mt-6 font-medium text-white shadow hover:bg-slate-700 focus:outline-none focus:ring active:bg-slate-500 sm:w-auto" to={"/cart"}>Order now</button>
           }
           {
-            !localStorage.getItem('customer_access_token') &&
+            !localStorage.getItem('user') &&
             <Link className="block w-full rounded bg-black px-12 py-3 text-sm text-center mt-6 font-medium text-white shadow hover:bg-slate-700 focus:outline-none focus:ring active:bg-slate-500 sm:w-auto" to={"/signin?redirect=cart"}>Login to order</Link>
           }
         </form>
