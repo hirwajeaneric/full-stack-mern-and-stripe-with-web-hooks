@@ -16,7 +16,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 bodyParser.urlencoded({ extended: true })
 
-mongoose.connect('')
+mongoose.connect('mongodb+srv://hirwajeaneric25:Hakizimana123@cluster0.rlg8coj.mongodb.net/mern-auth?retryWrites=true&w=majority')
 .then(()=> {
   console.log('Connected to MongoDB...');
 })
