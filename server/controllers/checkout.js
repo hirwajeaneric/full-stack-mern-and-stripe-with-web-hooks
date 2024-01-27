@@ -4,8 +4,6 @@ const CLIENT_ADDRESS = 'http://localhost:3000';
 const createCheckoutSession = async (req, res) => {
   const { items } = req.body;
 
-  console.log(req.body);
-
   if (items) {
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
