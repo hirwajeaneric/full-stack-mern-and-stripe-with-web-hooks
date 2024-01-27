@@ -1,9 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const allRoutes = require('./routes');
 const checkoutRouter = require('./routes/checkout.routes');
+const { default: mongoose } = require('mongoose');
 const app = express();
 
 const corsOptions = {
@@ -16,9 +18,10 @@ app.use(cors(corsOptions));
 app.use(express.json());
 bodyParser.urlencoded({ extended: true })
 
-mongoose.connect('mongodb+srv://hirwajeaneric25:Hakizimana123@cluster0.rlg8coj.mongodb.net/mern-auth?retryWrites=true&w=majority')
+mongoose.connect(process.env.MONGODB_URL)
 .then(()=> {
-  console.log('Connected to MongoDB...');
+  console.log('Connected to MongoDB ...');
+  app.listen(4242, () => console.log('Running on port 4242 ...'));
 })
 .catch((err) => {
   console.log(err);
@@ -28,5 +31,3 @@ mongoose.connect('mongodb+srv://hirwajeaneric25:Hakizimana123@cluster0.rlg8coj.m
 app.use('/', checkoutRouter);
 // Other end-points
 app.use('/api/v1/cement-swift/', allRoutes);
-
-app.listen(4242, () => console.log('Running on port 4242'));

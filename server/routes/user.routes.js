@@ -1,10 +1,11 @@
 const express = require('express');
-const { updateUser, deleteUser } = require('../controllers/user.controllers.js');
-const verifyToken = require('../utils/verifyUser.js');
+const { updateUser, deleteUser, findById, listUsers } = require('../controllers/user.controllers.js');
 
 const router = express.Router();
 
-router.post('/update/:id', verifyToken, updateUser);
-router.delete('/delete/:id', verifyToken, deleteUser);
+router.put('/update', updateUser);
+router.delete('/delete', deleteUser);
+router.get('/list', listUsers);
+router.get('/findById', findById);
 
 module.exports = router;
