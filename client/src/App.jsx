@@ -40,8 +40,6 @@ const App = () => {
             <Route path="" element={<Home />} />
             <Route path="products" element={<Products />} />
             <Route path="product/:productId" element={<ProductDetails />} />
-            <Route path="signin" element={<SignIn />} />
-            <Route path="signup" element={<SignUp />} />
             <Route path="reset-password" element={<ResetPassword />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="cart" element={<Cart />} />
@@ -56,6 +54,10 @@ const App = () => {
               <Route path="order/:orderId" element={<OrderDetails />} />
             </Route>
           </Route>
+
+          {/* Client authentication pages  */}
+          <Route path="signin" element={<SignIn />} />
+          <Route path="signup" element={<SignUp />} />
 
           {/* Dashboard Authenticaiton  */}
           <Route path="/admin/signin" element={<SignInAdmin />} />
