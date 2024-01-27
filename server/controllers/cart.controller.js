@@ -9,13 +9,13 @@ const addCartItem = async (req, res, next) => {
 
         if (itemExists) {
             var newQuantity = itemExists.quantity + 1;
-            var newPrice = itemExists.price + req.body.price;
+            var newTotal = itemExists.total + req.body.price;
 
             const updatedCartItem = await CartItemModel.findByIdAndUpdate(
                 itemExists._id,
                 {
                     $set: {
-                        price: newPrice,
+                        total: newTotal,
                         quantity: newQuantity,
                     }
                 },
@@ -56,6 +56,10 @@ const listItems = async (req, res, next) => {
 // Update cartItem 
 const updateCartItem = async (req, res, next) => {
     try {
+        if (req.body.price || req.body.quantity) {
+            req.body.total = req.body.price * req.body.quantity;
+        }
+
         const updatedCartItem = await CartItemModel.findByIdAndUpdate(
             req.query.id,
             {

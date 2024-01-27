@@ -19,7 +19,8 @@ const CartItemSchema = new Schema({
     },
     photo: {
         type: String,
-        required: true
+        required: true,
+        default: 'https://www.iprcenter.gov/image-repository/blank-profile-picture.png/@@images/image.png'
     },
     description: {
         type: String,
