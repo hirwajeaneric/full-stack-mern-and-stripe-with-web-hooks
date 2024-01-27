@@ -14,9 +14,21 @@ const ProductDetails = () => {
   const addToChart = (e) => {
     e.preventDefault();
 
-    axios.post("http://localhost:4242/add-to-cart", { productId: params.productId })
+    const { name, price, description, photo, productId } = product;
+
+    axios.post("http://localhost:4242/api/v1/cement-swift/cart/add", 
+      { 
+        productName: name,
+        price: price,
+        quantity: 1,
+        description: description,
+        photo: photo,
+        total: price,
+        productId: productId,
+        customerId: JSON.parse(localStorage.getItem('user'))._id
+      })
       .then((response) => {
-        if (response.status === 201) {
+        if (response.status === 200) {
           window.location.replace('/cart');
         }
       })

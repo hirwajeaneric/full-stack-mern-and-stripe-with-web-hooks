@@ -3,9 +3,13 @@ import SimpleUserNavigationBar from "../../components/SimpleUserNavigationBar"
 
 const UserPages = () => {
   return (
-    <div className="">
+    <div className="w-full flex flex-col justify-center items-center">
+      <div className="flex w-full mb-12 max-w-screen-xl text-black justify-between items-start px-4 py-7 sm:px-6 lg:px-8 lg:pt-7">
         <SimpleUserNavigationBar />
-        <Outlet />
+        <div className="w-full md:w-3/4 pl-10">
+          <Outlet />
+        </div>
+      </div>
     </div>
   )
 }

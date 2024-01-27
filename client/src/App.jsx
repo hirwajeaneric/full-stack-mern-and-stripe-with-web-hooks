@@ -29,6 +29,7 @@ import SignInAdmin from "./pages/admin_pages/authentication/SignInAdmin";
 import SignUpAdmin from "./pages/admin_pages/authentication/SignUpAdmin";
 import ResetPasswordAdmin from "./pages/admin_pages/authentication/ResetPasswordAdmin";
 import ForgotPasswordAdmin from "./pages/admin_pages/authentication/ForgotPasswordAdmin";
+import Purchases from "./pages/user_restricted_pages/Purchases";
 
 const App = () => {
   return (
@@ -50,6 +51,7 @@ const App = () => {
             <Route path="account" element={<UserPages />}>
               <Route path="" element={<Orders />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="purchases" element={<Purchases />} />
               <Route path="orders" element={<Orders />} />
               <Route path="order/:orderId" element={<OrderDetails />} />
             </Route>
