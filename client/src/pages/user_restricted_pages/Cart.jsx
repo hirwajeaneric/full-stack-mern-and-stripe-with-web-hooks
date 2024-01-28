@@ -19,7 +19,7 @@ const Cart = () => {
                 response.data.items.forEach((item) => {
                     grandTotal += item.price;
                 });
-                setSummary({grandTotal: grandTotal});
+                setSummary({ ...summary, grandTotal: grandTotal});
             })
             .catch((error) => { console.log(error); })
     }, []);
@@ -43,30 +43,32 @@ const Cart = () => {
         <section className="w-full flex flex-col justify-center items-center">
             <div className="flex w-full flex-col mb-12 gap-2 max-w-screen-xl text-black justify-between items-start px-4 py-7 sm:px-6 lg:px-8 lg:pt-7">
                 <h1 className="text-3xl font-bold">Cart</h1>
-                <div>
-                    <form>
-                        <table>
-                            <tr>
-                                <th>Products</th>
-                                <th>Quantity</th>
-                                <th>Subtotal</th>
+                <div className='flex w-full flex-wrap'>
+                    
+                    <form className='w-full md:w-3/4 mb-7'>
+                        <table className='w-full'>
+                            <tr className='text-left'>
+                                <td>Products</td>
+                                <td>Quantity</td>
+                                <td>Subtotal</td>
                             </tr>
                             {unConfirmedOrders.map((product, index) => (
                                 <CartItem key={index} product={product} />
                             ))}
                         </table>
                     </form>
-                    <form onSubmit={goToPayment}>
-                        <h3>Summary</h3>
-                        <div>
+
+                    <form onSubmit={goToPayment} className='w-full md:w-1/4 flex flex-col gap-6 p-5 rounded-md border-solid border-2 border-slate-100'>
+                        <h3 className='font-bold text-lg'>Summary</h3>
+                        <div className='flex justify-between items-center'>
                             <p>Delivery Charge</p>
                             <p>{summary.deliveryCharge} Rwf</p>
                         </div>
-                        <div>
+                        <div className='flex justify-between items-center'>
                             <p><strong>Grand Total</strong></p>
-                            <p><strong>{summary.grandTotal} Rwf</strong></p>
+                            <p><strong>{summary.grandTotal} Rwf</strong></p> 
                         </div>
-                        <button type='submit'>Checkout</button>
+                        <button type='submit' className="block w-full rounded bg-black px-12 py-3 text-sm font-medium text-white shadow hover:bg-slate-700 focus:outline-none focus:ring active:bg-slate-500">Checkout</button>
                     </form>
                 </div>
             </div>

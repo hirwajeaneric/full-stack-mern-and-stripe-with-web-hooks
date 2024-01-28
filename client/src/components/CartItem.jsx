@@ -9,13 +9,19 @@ const CartItem = ({product}) => {
         setProductData(product);
     },[product])
 
+    const deleteItem = (e) => {
+        e.preventDefault();
+
+
+    }
+
     const handleQuantity = (e) => {
         setProductData({ ...productData, [e.target.name]: e.target.value });
     }
 
     return (
         <tr>
-            <td>
+            <td className="py-4">
                 <div className="flex items-center">
                     <img src={`${product.photo}`} className="w-12 h-12 object-contain rounded-full" alt="" />
                     <div className="ml-4">
@@ -24,17 +30,17 @@ const CartItem = ({product}) => {
                     </div>
                 </div>
             </td>
-            <td>
-                <div>
-                    <button>-</button>
-                    <input type="number" name="quantity" id="quantity" value={productData.quantity} onChange={handleQuantity} />
-                    <button>+</button>
+            <td className="py-4">
+                <div className="flex rounded-md border-solid border-2 w-1/3">
+                    <button className="w-1/3 p-2">-</button>
+                    <input type="number" name="quantity" id="quantity" className="w-1/3 text-center" value={productData.quantity} onChange={handleQuantity} />
+                    <button className="w-1/3 p-2">+</button>
                 </div>
             </td>
-            <td>
-                <div>
+            <td className="py-4">
+                <div className="flex gap-4">
                     <p>{productData.quantity * productData.price} Rwf</p>
-                    <button>
+                    <button onClick={deleteItem}>
                         <MdDeleteOutline className="text-red-500 text-2xl"/>
                     </button>
                 </div>

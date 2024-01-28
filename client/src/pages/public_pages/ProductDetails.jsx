@@ -39,8 +39,8 @@ const ProductDetails = () => {
 
   return (
     <section className="w-full flex flex-col justify-center items-center">
-      <div className="flex w-full mb-12 gap-2 max-w-screen-xl text-black justify-between items-start px-4 py-7 sm:px-6 lg:px-8 lg:pt-7">
-        <img src={product.photo} alt="" className="w-full md:w-1/3" />
+      <div className="flex w-full mb-12 gap-2 max-w-screen-xl text-black justify-between items-start px-4 py-7 sm:px-6 lg:px-8 lg:pt-7 flex-wrap">
+        <img src={product.photo} alt="" className="w-full rounded-lg  md:w-1/3 mb-4" />
 
         <form onSubmit={addToChart} className="w-full md:w-1/2">
           <h1 className="text-3xl font-bold">{product.name}</h1>
