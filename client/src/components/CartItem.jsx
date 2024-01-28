@@ -1,9 +1,11 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 
 /* eslint-disable react/prop-types */
 const CartItem = ({product}) => {
     const [productData, setProductData] = useState({});
+    const [processing, setProcessing] = useState(false);
 
     useEffect(() => {
         setProductData(product);
@@ -12,11 +14,38 @@ const CartItem = ({product}) => {
     const deleteItem = (e) => {
         e.preventDefault();
 
-
+        axios.delete(`http://localhost:4242/api/v1/cement-swift/cart/delete?id=${productData._id}`)
+        .then((response) => {
+            if (response.status === 200) {
+                window.location.reload();
+            }
+        })
+        .catch(error => {
+             console.log('Error :', error);
+        });
     }
 
     const handleQuantity = (e) => {
         setProductData({ ...productData, [e.target.name]: e.target.value });
+    }
+
+    const reduceQuantity = () => {
+        if (productData.quantity === 1) {
+            return;
+        }
+        setProductData({...productData, quantity: productData.quantity - 1 });
+        setProcessing(true);
+        setTimeout(() => {
+            setProcessing(false);
+        }, 2000)
+    }
+    
+    const increaseQuantity = () => {
+        setProductData({...productData, quantity: productData.quantity + 1 });
+        setProcessing(true);
+        setTimeout(() => {
+            setProcessing(false);
+        }, 2000)
     }
 
     return (
@@ -31,11 +60,12 @@ const CartItem = ({product}) => {
                 </div>
             </td>
             <td className="py-4">
-                <div className="flex rounded-md border-solid border-2 w-1/3">
-                    <button className="w-1/3 p-2">-</button>
-                    <input type="number" name="quantity" id="quantity" className="w-1/3 text-center" value={productData.quantity} onChange={handleQuantity} />
-                    <button className="w-1/3 p-2">+</button>
-                </div>
+                {processing && <img src="http://localhost:3000/loaders/4a287dd4b9222ebb17dc354257d0ef79_w200.gif" alt="Loading..." className="w-10"/>}
+                {!processing && <div className="flex rounded-md border-solid border-2 w-1/3">
+                    <button type="button" className="w-1/3 p-2" onClick={() => reduceQuantity()}>-</button>
+                    <input type="number" name="quantity" id="quantity" disabled className="w-1/3 text-center" value={productData.quantity} onChange={handleQuantity} />
+                    <button type="button" className="w-1/3 p-2" onClick={() => increaseQuantity()}>+</button>
+                </div>}
             </td>
             <td className="py-4">
                 <div className="flex gap-4">
