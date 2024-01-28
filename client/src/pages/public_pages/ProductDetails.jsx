@@ -6,6 +6,7 @@ import axios from "axios";
 const ProductDetails = () => {
   const [product, setProduct] = useState({});
   const params = useParams();
+  const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
     setProduct(productTypes.find(product => product.name === params.productId));
@@ -15,9 +16,9 @@ const ProductDetails = () => {
     e.preventDefault();
 
     const { name, price, description, photo, productId } = product;
-
-    axios.post("http://localhost:4242/api/v1/cement-swift/cart/add", 
-      { 
+    setProcessing(true)
+    axios.post("http://localhost:4242/api/v1/cement-swift/cart/add",
+      {
         productName: name,
         price: price,
         quantity: 1,
@@ -49,7 +50,10 @@ const ProductDetails = () => {
           <p className="mt-1 text-sm text-gray-700">{product.description}</p>
           {
             localStorage.getItem('user') &&
-            <button type="submit" className="block w-full rounded bg-black px-12 py-3 text-sm text-center mt-6 font-medium text-white shadow hover:bg-slate-700 focus:outline-none focus:ring active:bg-slate-500 sm:w-auto" to={"/cart"}>Order now</button>
+            <>
+              {!processing && <button type="submit" className="block w-full rounded bg-black px-12 py-3 text-sm text-center mt-6 font-medium text-white shadow hover:bg-slate-700 focus:outline-none focus:ring active:bg-slate-500 sm:w-auto">Order now</button>}
+              {processing && <button type="button" disabled className="block w-full rounded bg-black px-12 py-3 text-sm text-center mt-6 font-medium text-white shadow hover:bg-slate-400 focus:outline-none focus:ring active:bg-slate-500 sm:w-auto">Processing...</button>}
+            </>
           }
           {
             !localStorage.getItem('user') &&

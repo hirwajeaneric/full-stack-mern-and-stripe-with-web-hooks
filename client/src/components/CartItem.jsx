@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 
 /* eslint-disable react/prop-types */
-const CartItem = ({product}) => {
+const CartItem = (props) => {
+    const {product, unConfirmedOrders, setUnConfirmedOrders, summary, setSummary} = props;
     const [productData, setProductData] = useState({});
     const [processing, setProcessing] = useState(false);
 
@@ -17,7 +18,12 @@ const CartItem = ({product}) => {
         axios.delete(`http://localhost:4242/api/v1/cement-swift/cart/delete?id=${productData._id}`)
         .then((response) => {
             if (response.status === 200) {
-                window.location.reload();
+                setUnConfirmedOrders(response.data.items);
+                var grandTotal = 0;
+                response.data.items.forEach((item) => {
+                    grandTotal += item.total;
+                });
+                setSummary({ ...summary, grandTotal: grandTotal });
             }
         })
         .catch(error => {
@@ -33,19 +39,49 @@ const CartItem = ({product}) => {
         if (productData.quantity === 1) {
             return;
         }
-        setProductData({...productData, quantity: productData.quantity - 1 });
+        var newQuantity = productData.quantity - 1;
         setProcessing(true);
-        setTimeout(() => {
-            setProcessing(false);
-        }, 2000)
+        axios.put(`http://localhost:4242/api/v1/cement-swift/cart/update?id=${productData._id}`, {
+            quantity: newQuantity,
+            price: productData.price
+        })
+        .then((response) => {
+            if (response.status === 200) {
+                setProcessing(false);
+                setUnConfirmedOrders(response.data.items);
+                var grandTotal = 0;
+                response.data.items.forEach((item) => {
+                    grandTotal += item.total;
+                });
+                setSummary({ ...summary, grandTotal: grandTotal });
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     }
     
     const increaseQuantity = () => {
-        setProductData({...productData, quantity: productData.quantity + 1 });
+        var newQuantity = productData.quantity + 1;
         setProcessing(true);
-        setTimeout(() => {
-            setProcessing(false);
-        }, 2000)
+        axios.put(`http://localhost:4242/api/v1/cement-swift/cart/update?id=${productData._id}`, {
+            quantity: newQuantity,
+            price: productData.price
+        })
+        .then((response) => {
+            if (response.status === 200) {
+                setProcessing(false);
+                setUnConfirmedOrders(response.data.items);
+                var grandTotal = 0;
+                response.data.items.forEach((item) => {
+                    grandTotal += item.total;
+                });
+                setSummary({ ...summary, grandTotal: grandTotal });
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     }
 
     return (
@@ -63,7 +99,7 @@ const CartItem = ({product}) => {
                 {processing && <img src="http://localhost:3000/loaders/4a287dd4b9222ebb17dc354257d0ef79_w200.gif" alt="Loading..." className="w-10"/>}
                 {!processing && <div className="flex rounded-md border-solid border-2 w-1/3">
                     <button type="button" className="w-1/3 p-2" onClick={() => reduceQuantity()}>-</button>
-                    <input type="number" name="quantity" id="quantity" disabled className="w-1/3 text-center" value={productData.quantity} onChange={handleQuantity} />
+                    <input type="number" name="quantity" id="quantity" disabled className="w-1/3 text-center" value={productData.quantity || ''} onChange={handleQuantity} />
                     <button type="button" className="w-1/3 p-2" onClick={() => increaseQuantity()}>+</button>
                 </div>}
             </td>
