@@ -30,6 +30,7 @@ import SignUpAdmin from "./pages/admin_pages/authentication/SignUpAdmin";
 import ResetPasswordAdmin from "./pages/admin_pages/authentication/ResetPasswordAdmin";
 import ForgotPasswordAdmin from "./pages/admin_pages/authentication/ForgotPasswordAdmin";
 import Purchases from "./pages/user_restricted_pages/Purchases";
+import Success from "./pages/user_restricted_pages/Success";
 
 const App = () => {
   return (
@@ -46,6 +47,7 @@ const App = () => {
             <Route path="cart" element={<Cart />} />
             <Route path="checkout" element={<Checkout />} />
             <Route path="return" element={<Return />} />
+            <Route path="success" element={<Success />} />
 
             {/* User-specific and restricted pages  */}
             <Route path="account" element={<UserPages />}>
