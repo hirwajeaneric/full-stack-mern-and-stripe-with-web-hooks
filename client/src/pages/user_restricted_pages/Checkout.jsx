@@ -30,7 +30,7 @@ const Checkout = () => {
     const queryData = JSON.parse(searchParams.get('items'));
     setItems(queryData);
 
-    axios.get("http://localhost:4242/secret")
+    axios.get("http://localhost:4242/api/v1/cement-swift/checkout/secret")
       .then((response) => {
         setClientSecret(response.data.client_scecret);
       })
