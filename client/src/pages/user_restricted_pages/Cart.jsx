@@ -35,7 +35,7 @@ const Cart = () => {
             });
         })
 
-        navigate(`/checkout?items=${JSON.stringify(cartItems)}`);
+        navigate(`/checkout?amount=${JSON.stringify(summary.grandTotal)}&items=${JSON.stringify(cartItems)}`);
 
     };
 

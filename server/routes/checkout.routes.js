@@ -5,6 +5,6 @@ const checkoutRouter = express.Router();
 
 checkoutRouter.post('/create-checkout-session', createCheckoutSession)
 checkoutRouter.get('/session-status', checkSessionStatus);
-checkoutRouter.get('/secret', getClientSecret);
+checkoutRouter.post('/secret', getClientSecret);
 
 module.exports = checkoutRouter;

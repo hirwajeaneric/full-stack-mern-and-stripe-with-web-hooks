@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 const Success = () => {
     const stripe = useStripe();
     const [message, setMessage] = useState(null);
-
+    
     useEffect(() => {
         if (!stripe) {
             return;
@@ -13,7 +13,7 @@ const Success = () => {
         // Retrieve the "payment_intent_client_secret" query parameter appended to
         // your return_url by Stripe.js
         const clientSecret = new URLSearchParams(window.location.search).get('payment_intent_client_secret');
-
+        
         // Retrieve the PaymentIntent
         stripe
             .retrievePaymentIntent(clientSecret)
