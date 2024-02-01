@@ -32,7 +32,7 @@ const addCartItem = async (req, res, next) => {
             const newCartItem = await CartItemModel.create(req.body);
         
             if (newCartItem) {
-                const allItems = await CartItemModel.find({ customerId: newCartItem.customerId });
+                const allItems = await CartItemModel.find({ customerId: newCartItem.customerId, status: 'pending' });
                 res.status(200).json({ items: allItems });
             }
         }
@@ -40,6 +40,7 @@ const addCartItem = async (req, res, next) => {
         next(error);
     }
 };
+
 
 // List items
 const listItems = async (req, res, next) => {
@@ -50,7 +51,6 @@ const listItems = async (req, res, next) => {
         next(error);
     }
 };
-
 
 
 // Update cartItem 
@@ -71,13 +71,29 @@ const updateCartItem = async (req, res, next) => {
         );
 
         if (updatedCartItem) {
-            const allItems = await CartItemModel.find({ customerId: updatedCartItem.customerId });
+            const allItems = await CartItemModel.find({ customerId: updatedCartItem.customerId, status: 'pending' });
             res.status(200).json({ items: allItems });
         }
     } catch (error) {
         next(error);
     }
 };
+
+const confirmPayment = async (req, res) => { 
+    try {
+        const orderCode = `${Math.floor(Math.random() * 10000)}_${new Date().getTime()}`;
+        const updates = await CartItemModel.updateMany({ customerId: req.query.customerId }, { status: 'confirmed', orderCode: orderCode });
+        console.log(updates);
+        if (!updates) {
+            res.status(400).json({ message: 'Payment Failed' });
+        }
+        // const completedOrder = await CartItemModel.find({ customerId: updates.customerId });
+        res.status(200).json({ message: 'Payment confirmed' });
+    } catch (error) {
+        next(error);
+    }
+};
+
 
 const deleteCart = async (req, res, next) => {
     try {
@@ -95,6 +111,7 @@ const deleteCart = async (req, res, next) => {
 module.exports = {
     addCartItem,
     listItems,
+    confirmPayment,
     updateCartItem,
     deleteCart
 }

@@ -14,7 +14,8 @@ const Cart = () => {
     useEffect(() => {
         axios.get(`http://localhost:4242/api/v1/cement-swift/cart/list?customerId=${JSON.parse(localStorage.getItem('user'))._id}`)
             .then((response) => {
-                setUnConfirmedOrders(response.data.items);
+                var pendingCart = response.data.items.filter(item => item.status === 'pending');
+                setUnConfirmedOrders(pendingCart);
                 var grandTotal = 0;
                 response.data.items.forEach((item) => {
                     grandTotal += item.total;

@@ -47,8 +47,8 @@ const App = () => {
             <Route path="cart" element={<Cart />} />
             <Route path="" element={<Checkout />}>
               <Route path="checkout" element={<CheckoutForm />} />
-              <Route path="success" element={<Success />} />
             </Route>
+            <Route path="success" element={<Success />} />
 
             {/* User-specific and restricted pages  */}
             <Route path="account" element={<UserPages />}>

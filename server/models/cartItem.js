@@ -30,6 +30,20 @@ const CartItemSchema = new Schema({
         type: String,
         required: true
     },
+    status: {
+        type: String,
+        required: true,
+        enum: {
+            values: ['pending','complete','returned','rejected','accepted'],
+            message: '{VALUE} is not a valid status'
+        },
+        default: 'pending'
+    },   
+    orderCode: {
+        type: String,
+        required: false,
+        unique: true,
+    },
     customerId: {
         type: Schema.Types.ObjectId,
         ref: 'Customer',
