@@ -17,7 +17,8 @@ const ProductDetails = () => {
 
     const { name, price, description, photo, productId } = product;
     setProcessing(true)
-    axios.post("http://localhost:4242/api/v1/cement-swift/cart/add",
+    axios.post(
+      "http://localhost:4242/api/v1/cement-swift/cart/add",
       {
         productName: name,
         price: price,
