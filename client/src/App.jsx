@@ -4,7 +4,6 @@ import {
   Routes
 } from "react-router-dom";
 
-import Return from "./pages/user_restricted_pages/Return";
 import Home from "./pages/public_pages/Home";
 import Checkout from "./pages/user_restricted_pages/Checkout";
 import Cart from "./pages/user_restricted_pages/Cart";
@@ -31,6 +30,7 @@ import ResetPasswordAdmin from "./pages/admin_pages/authentication/ResetPassword
 import ForgotPasswordAdmin from "./pages/admin_pages/authentication/ForgotPasswordAdmin";
 import Purchases from "./pages/user_restricted_pages/Purchases";
 import Success from "./pages/user_restricted_pages/Success";
+import CheckoutForm from "./components/CheckoutForm";
 
 const App = () => {
   return (
@@ -45,9 +45,10 @@ const App = () => {
             <Route path="reset-password" element={<ResetPassword />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="cart" element={<Cart />} />
-            <Route path="checkout" element={<Checkout />} />
-            <Route path="return" element={<Return />} />
-            <Route path="success" element={<Success />} />
+            <Route path="" element={<Checkout />}>
+              <Route path="checkout" element={<CheckoutForm />} />
+              <Route path="success" element={<Success />} />
+            </Route>
 
             {/* User-specific and restricted pages  */}
             <Route path="account" element={<UserPages />}>

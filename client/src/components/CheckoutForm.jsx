@@ -1,9 +1,11 @@
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useState } from "react";
+import ErrorAlert from "./ErrorAlert";
 
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const [processing, setProcessing] = useState(false);
   
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -19,7 +21,7 @@ const CheckoutForm = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: 'http://127.0.0.1:3000/success',
+        return_url: 'http://localhost:3000/success',
       },
     });
 
@@ -31,10 +33,16 @@ const CheckoutForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5 mt-10 mb-20">
+        <h1 className="text-2xl font-bold text-center">Confirm your payment</h1>
         <PaymentElement />
-        <button disabled={!stripe}>Submit</button>
-        {errorMessage && <div>{errorMessage}</div>}
+        <button 
+          onClick={() => setProcessing(true)} 
+          disabled={!stripe || processing} 
+          className="mb-5 bg-black text-white py-3 px-4 rounded-lg hover:bg-slate-700 disabled:bg-slate-500">
+            {processing? "Processing payment. It might take some few seconds...." : "Submit"}
+        </button>
+        {errorMessage && <ErrorAlert error={{ title: 'Something went wrong', description: errorMessage }} />}
     </form>
   )
 }
