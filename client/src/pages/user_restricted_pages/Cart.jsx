@@ -17,7 +17,7 @@ const Cart = () => {
                 var pendingCart = response.data.items.filter(item => item.status === 'pending');
                 setUnConfirmedOrders(pendingCart);
                 var grandTotal = 0;
-                response.data.items.forEach((item) => {
+                pendingCart.forEach((item) => {
                     grandTotal += item.total;
                 });
                 setSummary({ ...summary, grandTotal: grandTotal });
