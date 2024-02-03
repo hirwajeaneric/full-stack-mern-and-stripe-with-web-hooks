@@ -39,6 +39,10 @@ const CartItemSchema = new Schema({
         },
         default: 'pending'
     },   
+    completedOn: {
+        type: Date,
+        required: false
+    },
     orderCode: {
         type: String,
         required: false,
@@ -49,6 +53,8 @@ const CartItemSchema = new Schema({
         ref: 'Customer',
         required: true
     }
+}, {
+    timestamps: true
 });
 
 const CartItemModel = model('Cart', CartItemSchema); //

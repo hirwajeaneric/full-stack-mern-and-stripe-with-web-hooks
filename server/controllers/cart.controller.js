@@ -4,7 +4,8 @@ const addCartItem = async (req, res, next) => {
     try {
         const itemExists = await CartItemModel.findOne({
             customerId: req.body.customerId,
-            productName: req.body.productName
+            productName: req.body.productName,
+            status: 'pending'
         });
 
         if (itemExists) {
@@ -46,7 +47,7 @@ const addCartItem = async (req, res, next) => {
 const listItems = async (req, res, next) => {
     try {
         const items = await CartItemModel.find({ customerId: req.query.customerId });
-        res.status(201).json({ items });
+        res.status(200).json({ items });
     } catch (error) {
         next(error);
     }
@@ -60,18 +61,9 @@ const updateCartItem = async (req, res, next) => {
             req.body.total = req.body.price * req.body.quantity;
         }
 
-        const updatedCartItem = await CartItemModel.findByIdAndUpdate(
-            req.query.id,
-            {
-                $set: req.body
-            },
-            {
-                new: true,
-            }
-        );
-
-        if (updatedCartItem) {
-            const allItems = await CartItemModel.find({ customerId: updatedCartItem.customerId, status: 'pending' });
+        const updatedItem = await CartItemModel.findByIdAndUpdate(req.query.id, { $set: req.body });
+        if (updatedItem) {
+            const allItems = await CartItemModel.find({ customerId: updatedItem.customerId, status: 'pending' });
             res.status(200).json({ items: allItems });
         }
     } catch (error) {
@@ -79,11 +71,11 @@ const updateCartItem = async (req, res, next) => {
     }
 };
 
-const confirmPayment = async (req, res) => { 
+const completePayment = async (req, res) => { 
     try {
-        const orderCode = `${Math.floor(Math.random() * 10000)}_${new Date().getTime()}`;
-        const updates = await CartItemModel.updateMany({ customerId: req.query.customerId }, { status: 'confirmed', orderCode: orderCode });
-        console.log(updates);
+        const orderCode = `${Math.floor(Math.random() * 10000)}_${new Date().toISOString()}`;
+        const updates = await CartItemModel.updateMany({ customerId: req.query.customerId }, { status: 'complete', orderCode: orderCode, completedOn: new Date()});
+        
         if (!updates) {
             res.status(400).json({ message: 'Payment Failed' });
         }
@@ -100,7 +92,7 @@ const deleteCart = async (req, res, next) => {
         const deletedItem = await CartItemModel.findByIdAndDelete(req.query.id);
 
         if (deletedItem) {
-            const allItems = await CartItemModel.find({ customerId: deletedItem.customerId });
+            const allItems = await CartItemModel.find({ customerId: deletedItem.customerId, status: 'pending' });
             res.status(200).json({ items: allItems });
         }
     } catch (error) {
@@ -111,7 +103,7 @@ const deleteCart = async (req, res, next) => {
 module.exports = {
     addCartItem,
     listItems,
-    confirmPayment,
+    completePayment,
     updateCartItem,
     deleteCart
 }
