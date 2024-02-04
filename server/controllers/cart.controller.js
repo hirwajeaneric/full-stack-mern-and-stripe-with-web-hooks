@@ -24,14 +24,15 @@ const addCartItem = async (req, res, next) => {
                     new: true,
                 }
             );
-
             if (updatedCartItem) {
                 const allItems = await CartItemModel.find({ customerId: updatedCartItem.customerId });
                 res.status(200).json({ items: allItems });
             }
         } else {
-            const newCartItem = await CartItemModel.create(req.body);
-        
+            // const newCartItem = await CartItemModel.create(req.body);
+            var newItem = new CartItemModel(req.body);
+            const newCartItem = await newItem.save();
+            console.log(newCartItem);
             if (newCartItem) {
                 const allItems = await CartItemModel.find({ customerId: newCartItem.customerId, status: 'pending' });
                 res.status(200).json({ items: allItems });
