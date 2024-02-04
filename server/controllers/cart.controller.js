@@ -73,8 +73,15 @@ const updateCartItem = async (req, res, next) => {
 
 const completePayment = async (req, res) => { 
     try {
-        const orderCode = `${Math.floor(Math.random() * 10000)}_${new Date().toISOString()}`;
-        const updates = await CartItemModel.updateMany({ customerId: req.query.customerId }, { status: 'complete', orderCode: orderCode, completedOn: new Date()});
+        const orderCode = `${Math.floor(Math.random() * 10000)}_${new Date().getTime()}`;
+        const updates = await CartItemModel.updateMany({ 
+            customerId: req.query.customerId,
+            status: 'pending'
+        }, { 
+            status: 'complete', 
+            orderCode: orderCode, 
+            completedOn: new Date()
+        });
         
         if (!updates) {
             res.status(400).json({ message: 'Payment Failed' });

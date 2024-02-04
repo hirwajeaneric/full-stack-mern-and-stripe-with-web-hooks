@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
  * @param {NextFunction} next next function
  */
 const signup = async (req, res, next) => {
-    const { fullName, email, phone, password } = req.bossdy;
+    const { fullName, email, phone, password } = req.body;
     const hashedPassword = bcryptjs.hashSync(password, 10);
     const newUser = new User({ fullName, email, phone, password: hashedPassword });
 

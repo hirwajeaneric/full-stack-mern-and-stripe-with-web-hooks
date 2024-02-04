@@ -45,8 +45,7 @@ const CartItemSchema = new Schema({
     },
     orderCode: {
         type: String,
-        required: false,
-        unique: true,
+        required: false
     },
     customerId: {
         type: Schema.Types.ObjectId,
