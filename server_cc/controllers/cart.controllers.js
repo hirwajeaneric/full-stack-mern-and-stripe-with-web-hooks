@@ -81,8 +81,8 @@ const updateCartItem = async (req, res, next) => {
 const completePayment = async (req, res) => {
     try {
         const order = await OrderModel.create({ customerId: req.query.customerId });
+        const confirmedItems = await CartItemModel.updateMany({ customerId: req.query.customerId, status: 'pending' }, { $set: { status: 'complete', orderId: order._id } });
 
-        const confirmedItems = await CartItemModel.updateMany({ customerId: req.query.customerId }, { $set: { status: 'complete', orderId: order._id } });
         if (confirmedItems) {
             res.status(200).json({ message: 'Payment confirmed' });
         }

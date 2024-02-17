@@ -24,16 +24,16 @@ const Orders = () => {
   return (
     <div className="flex flex-col justify-start items-start gap-6">
       <h1 className="text-2xl font-semibold">My Orders</h1>
-      <div className="list_of_orders flex flex-col border-1 border-gray-400 w-full">
+      <div className="list_of_orders flex flex-col border-1 border-gray-400 w-full gap-5">
         {orders.length === 0 && <span className="">You do not have orders yet.</span>}
         {orders.length !== 0 && orders.map((order, index) => (
           <div key={index} className="orderItem">
             <div className="flex justify-between items-center">
-              <strong>Order {order.orderCode}</strong>
-              <Link to={`/account/order/${order.orderCode}`} className="text-slate-600">View Order</Link>
+              <strong>Order {order._id}</strong>
+              <Link to={`/account/order/${order._id}`} className="text-slate-600">View Order</Link>
             </div>
-            <p>Total: {order.total}</p>
-          <small>Ordered On: {new Date(order.orderedOn).toDateString()} - {new Date(order.orderedOn).toLocaleTimeString()}</small>
+            {/* <p>Total: {order.total}</p> */}
+          <small>Make On: {new Date(order.createdAt).toDateString()} - {new Date(order.createdAt).toLocaleTimeString()}</small>
           </div>
         ))}
       </div>
