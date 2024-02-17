@@ -4,30 +4,20 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import SuccessAlert from "../../components/SuccessAlert";
 import ErrorAlert from "../../components/ErrorAlert";
 
+const serverAddress = import.meta.env.VITE_SERVER_ADDRESS;
+
 const SignIn = () => {
   const navigate = useNavigate();
   const [searchParams, setSetSearchParams] = useSearchParams();
 
-  const [message, setMessage] = useState({
-    title: "",
-    description: ""
-  });
-
-  const [error, setError] = useState({
-    title: "",
-    description: ""
-  });
-
-  const [user, setUser] = useState({
-    email: '',
-    password: ''
-  });
+  const [message, setMessage] = useState({ title: "", description: "" });
+  const [error, setError] = useState({ title: "", description: "" });
+  const [user, setUser] = useState({ email: '', password: ''});
 
   const clearInputs = () => {
-    setUser({
-      email: '',
-      password: ''    
-    })
+    setUser({ email: '', password: '' });
+    setMessage({ title: "", description: "" });
+    setError({ title: "", description: ""});
   }
 
   const handleInputs = (e) => {
@@ -39,7 +29,7 @@ const SignIn = () => {
 
     setError({ title: "", description:""});
     
-    axios.post('http://localhost:4242/api/v1/cement-swift/auth/signin', user)
+    axios.post(`${serverAddress}/api/v1/cement-swift/auth/signin`, user)
     .then((response) => {
       if (response.status === 200) {
 
@@ -64,7 +54,7 @@ const SignIn = () => {
       .catch(error => {
         setError({
           title: 'Error',
-          description: error
+          description: error.message
         })
       })
   }
@@ -157,9 +147,9 @@ const SignIn = () => {
                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
                   Does not have an account?
                   {searchParams.get("redirect") ?
-                    <a href={`/signup?redirect=${searchParams.get("redirect")}`} className="text-gray-700 underline">Log in</a>
+                    <a href={`/signup?redirect=${searchParams.get("redirect")}`} className="text-gray-700 underline">Create account</a>
                     :
-                    <a href="/signup" className="text-gray-700 underline">Log in</a>
+                    <a href="/signup" className="text-gray-700 underline">Create account</a>
                   }.
                 </p>
               </div>

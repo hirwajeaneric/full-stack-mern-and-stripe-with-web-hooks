@@ -4,6 +4,8 @@ import axios from 'axios';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
+const serverAddress = import.meta.env.VITE_SERVER_ADDRESS;
+
 const stripePromise = loadStripe("pk_test_51OXVUEJ0gOzWqZK5uVE6U8ZKxFdPsYj3txq9wPCcdBTqT2G8RqL4v6NwkNBtVl6M1wfuc4DvBRCVpoy3RJ7Z5dgb00p4oqHVKg");
 
 const Checkout = () => {
@@ -14,7 +16,7 @@ const Checkout = () => {
     var queryData = JSON.parse(searchParams.get('items'));
     var amount = JSON.parse(searchParams.get('amount'));
 
-    axios.post("http://localhost:4242/api/v1/cement-swift/checkout/secret", { items: queryData, amount })
+    axios.post(`${serverAddress}/api/v1/cement-swift/checkout/secret`, { items: queryData, amount })
       .then((response) => {
         setClientSecret(response.data.client_secret);
       })

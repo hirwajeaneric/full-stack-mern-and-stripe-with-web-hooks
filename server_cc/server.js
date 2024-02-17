@@ -6,18 +6,17 @@ const mongoose = require('mongoose');
 const allRoutes = require('./routes');
 
 const app = express();
+app.use(express.json());
 
-const corsOptions = {
-    origin: ['http://localhost:3000', process.env.CLIENT_URL],
+var corsOptions = {
+    origin: ['http://localhost:3000', process.env.CLIENT_ADDRESS ],
     method: 'GET, POST, PUT, DELETE',
     allowedHeaders: 'Contect-Type, Authorization' // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
 app.use(cors(corsOptions));
-app.use(express.json());
-bodyParser.urlencoded({ extended: true });
 
-const port = 4242;
+const port = process.env.PORT || 8080;
 
 mongoose.connect(process.env.MONGODB_URL)
     .then(() => {
