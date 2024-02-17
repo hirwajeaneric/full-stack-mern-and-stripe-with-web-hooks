@@ -3,8 +3,8 @@ const CartItemModel = require('../models/cart.model');
 const addCartItem = async (req, res, next) => {
     try {
         const itemExists = await CartItemModel.findOne({
-            productName: req.params.productName, 
-            customerId: req.query.customerId,
+            productName: req.body.productName, 
+            customerId: req.body.customerId,
             status: 'pending'
         });
 
@@ -24,7 +24,7 @@ const addCartItem = async (req, res, next) => {
                     new: true
                 }
             );
-            
+
             if (updatedCartItem) {
                 const allItems = await CartItemModel.find({ customerId: updatedCartItem.customerId });
                 res.status(200).json({ items: allItems });
@@ -34,7 +34,7 @@ const addCartItem = async (req, res, next) => {
             const newItem = await CartItemModel.create(req.body);
             if (newItem) {
                 const allItems = await CartItemModel.find({ customerId: newItem.customerId, status: 'pending' });
-                res.status(200).json({ message: 'Item added to cart', items: allItems });
+                res.status(200).json({ items: allItems });
             }
         }
     } catch (error) {
