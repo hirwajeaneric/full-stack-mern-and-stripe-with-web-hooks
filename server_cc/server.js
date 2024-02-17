@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const allRoutes = require('./routes');
 
 const app = express();
 
@@ -27,10 +28,5 @@ mongoose.connect(process.env.MONGODB_URL)
         console.log(err);
     });
 
-app.use('/', (req, res, next) => {
-    console.log("Hello World!")
-});
-
-app.use('/api/v1/cement-swift/', () => {
-    console.log("Hello World!")
-});
+// Other end-points
+app.use('/api/v1/cement-swift/', allRoutes);
