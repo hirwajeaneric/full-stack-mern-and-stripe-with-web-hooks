@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 const allRoutes = require('./routes');
 const checkoutRouter = require('./routes/checkout.routes');
-const { default: mongoose } = require('mongoose');
+const { mongoose } = require('mongoose');
 const app = express();
 
 const corsOptions = {
