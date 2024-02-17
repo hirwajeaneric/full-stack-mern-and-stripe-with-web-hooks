@@ -1,4 +1,5 @@
 const CartItemModel = require('../models/cart.model');
+const { v4: uuidv4 } = require('uuid');
 
 const addCartItem = async (req, res, next) => {
     try {
@@ -77,8 +78,16 @@ const updateCartItem = async (req, res, next) => {
     }
 };
 
-const completePayment = (req, res) => {
-
+const completePayment = async (req, res) => {
+    try {
+        const orderId = uuidv4();
+        const confirmedItems = await CartItemModel.updateMany({ customerId: req.query.customerId }, { $set: { status: 'complete', orderId: orderId } });
+        if (confirmedItems) {
+            res.status(200).json({ message: 'Payment confirmed' });
+        }
+    } catch (error) {
+        next(error);
+    }
 };
 
 
