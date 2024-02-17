@@ -1,6 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react"
-import { getCompletedOrdersSummary } from "../../utils/orderSummaryGenerator";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const serverAddress = import.meta.env.VITE_SERVER_ADDRESS;
@@ -10,19 +9,16 @@ const Orders = () => {
   
   useEffect(() => {
     var userInfo = JSON.parse(localStorage.getItem('user'))._id;
-    axios.get(`${serverAddress}/api/v1/cement-swift/cart/list?customerId=${userInfo}`)
+    axios.get(`${serverAddress}/api/v1/cement-swift/order/getClientOrders?customerId=${userInfo}`)
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data.items);
-          var orderSummary = getCompletedOrdersSummary(response.data.items);
-          console.log(orderSummary);
-          setOrders(orderSummary);  
+          console.log(response.data.orders);
+          setOrders(response.data.orders);  
         }
       })
       .catch((error) => {
-        console.log('Error :', error);
+        console.log('Error :', error.message);
       });
-
   }, [])
 
   return (

@@ -43,7 +43,8 @@ const CartItemSchema = new Schema({
         required: false
     },
     orderId: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'order',
         required: false
     },
     customerId: {
