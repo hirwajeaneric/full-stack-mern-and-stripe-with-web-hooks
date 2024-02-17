@@ -94,7 +94,6 @@ const completePayment = async (req, res) => {
     }
 };
 
-
 const deleteCart = async (req, res, next) => {
     try {
         const deletedItem = await CartItemModel.findByIdAndDelete(req.query.id);

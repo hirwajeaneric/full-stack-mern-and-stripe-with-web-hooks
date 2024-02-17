@@ -30,6 +30,6 @@ const useSchema = new Schema({
     timestamps: true
  });
 
- const User = model('User', useSchema);
+ const User = model('user', useSchema);
 
  module.exports = User;
