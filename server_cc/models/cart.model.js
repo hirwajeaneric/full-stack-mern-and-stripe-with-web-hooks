@@ -23,7 +23,7 @@ const CartItemSchema = new Schema({
     },
     photo: {
         type: String,
-        required: true
+        required: false
     },
     description: {
         type: String,
@@ -42,7 +42,7 @@ const CartItemSchema = new Schema({
         type: Date,
         required: false
     },
-    orderCode: {
+    orderId: {
         type: String,
         required: false
     },
