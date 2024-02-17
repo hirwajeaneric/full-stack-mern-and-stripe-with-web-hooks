@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CartItem from '../../components/CartItem';
 
+const serverAddress = import.meta.env.VITE_SERVER_ADDRESS;
+
 const Cart = () => {
     const [unConfirmedOrders, setUnConfirmedOrders] = useState([]);
     const [summary, setSummary] = useState({
@@ -12,7 +14,7 @@ const Cart = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:4242/api/v1/cement-swift/cart/list?customerId=${JSON.parse(localStorage.getItem('user'))._id}`)
+        axios.get(`${serverAddress}/api/v1/cement-swift/cart/list?customerId=${JSON.parse(localStorage.getItem('user'))._id}`)
             .then((response) => {
                 var pendingCart = response.data.items.filter(item => item.status === 'pending');
                 setUnConfirmedOrders(pendingCart);

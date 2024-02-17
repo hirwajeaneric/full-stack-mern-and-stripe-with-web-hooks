@@ -4,19 +4,14 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import SuccessAlert from "../../components/SuccessAlert";
 import ErrorAlert from "../../components/ErrorAlert";
 
+const serverAddress = import.meta.env.VITE_SERVER_ADDRESS;
+
 const SignUp = () => {
   const navigate = useNavigate();
   const [searchParams, setSetSearchParams] = useSearchParams();
 
-  const [message, setMessage] = useState({
-    title: "",
-    description: ""
-  });
-
-  const [error, setError] = useState({
-    title: "",
-    description: ""
-  });
+  const [message, setMessage] = useState({ title: "", description: "" });
+  const [error, setError] = useState({ title: "", description: "" });
 
   const [user, setUser] = useState({
     fullName: '',
@@ -27,6 +22,8 @@ const SignUp = () => {
   });
 
   const clearInputs = () => {
+    setUser({ email: '', password: '' });
+    setMessage({ title: "", description: "" });
     setUser({
       fullName: '',
       phone: '',
@@ -54,7 +51,7 @@ const SignUp = () => {
     
       setError({ title: '', description:''});
      
-      axios.post('http://localhost:4242/api/v1/cement-swift/auth/signup', rest)
+      axios.post(`${serverAddress}/api/v1/cement-swift/auth/signup`, rest)
         .then((response) => {
           if (response.status === 201) {
             setMessage({ title: "Success", description: response.data.message });
@@ -71,7 +68,7 @@ const SignUp = () => {
         .catch(error => {
           setError({
             title: 'Error',
-            description: error
+            description: error.message
           })
         })
     }

@@ -2,12 +2,13 @@ import axios from "axios"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
 
+const serverAddress = import.meta.env.VITE_SERVER_ADDRESS;
 
 const Success = () => { 
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem('user'));
         if (new URLSearchParams(window.location.search).get('redirect_status') === 'succeeded') {
-            axios.put(`http://localhost:4242/api/v1/cement-swift/cart/confirm?customerId=${userInfo._id}`)
+            axios.put(`${serverAddress}/api/v1/cement-swift/cart/confirm?customerId=${userInfo._id}`)
             .then((response) => {
                 console.log(response.data);
             })

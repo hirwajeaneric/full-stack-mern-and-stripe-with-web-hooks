@@ -3,12 +3,14 @@ import { useEffect, useState } from "react"
 import { getCompletedOrdersSummary } from "../../utils/orderSummaryGenerator";
 import { Link } from "react-router-dom";
 
+const serverAddress = import.meta.env.VITE_SERVER_ADDRESS;
+
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   
   useEffect(() => {
     var userInfo = JSON.parse(localStorage.getItem('user'))._id;
-    axios.get(`http://localhost:4242/api/v1/cement-swift/cart/list?customerId=${userInfo}`)
+    axios.get(`${serverAddress}/api/v1/cement-swift/cart/list?customerId=${userInfo}`)
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data.items);
