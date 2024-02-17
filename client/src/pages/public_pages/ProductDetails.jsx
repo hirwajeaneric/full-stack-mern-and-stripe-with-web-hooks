@@ -3,6 +3,8 @@ import { productTypes } from "../../utils/ProductData"
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
+const serverAddress = import.meta.env.VITE_SERVER_ADDRESS;
+
 const ProductDetails = () => {
   const [product, setProduct] = useState({});
   const params = useParams();
@@ -18,7 +20,7 @@ const ProductDetails = () => {
     const { name, price, description, photo, productId } = product;
     setProcessing(true)
     axios.post(
-      "http://localhost:4242/api/v1/cement-swift/cart/add",
+      `${serverAddress}/api/v1/cement-swift/cart/add`,
       {
         productName: name,
         price: price,

@@ -1,40 +1,39 @@
-const CartItemModel = require('../models/cartItem.js');
+const CartItemModel = require('../models/cart.model');
 
 const addCartItem = async (req, res, next) => {
     try {
         const itemExists = await CartItemModel.findOne({
+            productName: req.body.productName, 
             customerId: req.body.customerId,
-            productName: req.body.productName,
             status: 'pending'
         });
 
         if (itemExists) {
             var newQuantity = itemExists.quantity + 1;
             var newTotal = itemExists.total + req.body.price;
-
+            
             const updatedCartItem = await CartItemModel.findByIdAndUpdate(
                 itemExists._id,
                 {
                     $set: {
-                        total: newTotal,
                         quantity: newQuantity,
+                        total: newTotal
                     }
                 },
                 {
-                    new: true,
+                    new: true
                 }
             );
+
             if (updatedCartItem) {
                 const allItems = await CartItemModel.find({ customerId: updatedCartItem.customerId });
                 res.status(200).json({ items: allItems });
             }
+
         } else {
-            // const newCartItem = await CartItemModel.create(req.body);
-            var newItem = new CartItemModel(req.body);
-            const newCartItem = await newItem.save();
-            console.log(newCartItem);
-            if (newCartItem) {
-                const allItems = await CartItemModel.find({ customerId: newCartItem.customerId, status: 'pending' });
+            const newItem = await CartItemModel.create(req.body);
+            if (newItem) {
+                const allItems = await CartItemModel.find({ customerId: newItem.customerId, status: 'pending' });
                 res.status(200).json({ items: allItems });
             }
         }
@@ -43,8 +42,6 @@ const addCartItem = async (req, res, next) => {
     }
 };
 
-
-// List items
 const listItems = async (req, res, next) => {
     try {
         const items = await CartItemModel.find({ customerId: req.query.customerId });
@@ -54,6 +51,14 @@ const listItems = async (req, res, next) => {
     }
 };
 
+const listAllItems = async (req, res, next) => {
+    try {
+        const items = await CartItemModel.find();
+        res.status(200).json({ items });
+    } catch (error) {
+        next(error);
+    }
+}
 
 // Update cartItem 
 const updateCartItem = async (req, res, next) => {
@@ -72,27 +77,10 @@ const updateCartItem = async (req, res, next) => {
     }
 };
 
-const completePayment = async (req, res) => { 
-    try {
-        const orderCode = `${Math.floor(Math.random() * 10000)}_${new Date().getTime()}`;
-        const updates = await CartItemModel.updateMany({ 
-            customerId: req.query.customerId,
-            status: 'pending'
-        }, { 
-            status: 'complete', 
-            orderCode: orderCode, 
-            completedOn: new Date()
-        });
-        
-        if (!updates) {
-            res.status(400).json({ message: 'Payment Failed' });
-        }
-        // const completedOrder = await CartItemModel.find({ customerId: updates.customerId });
-        res.status(200).json({ message: 'Payment confirmed' });
-    } catch (error) {
-        next(error);
-    }
+const completePayment = (req, res) => {
+
 };
+
 
 const deleteCart = async (req, res, next) => {
     try {
@@ -110,6 +98,7 @@ const deleteCart = async (req, res, next) => {
 module.exports = {
     addCartItem,
     listItems,
+    listAllItems,
     completePayment,
     updateCartItem,
     deleteCart

@@ -1,4 +1,4 @@
-const {Schema, model} = require('mongoose');
+const { Schema, models, model } = require('mongoose');
 
 const CartItemSchema = new Schema({
     productName: {
@@ -23,7 +23,7 @@ const CartItemSchema = new Schema({
     },
     photo: {
         type: String,
-        required: false,
+        required: false
     },
     description: {
         type: String,
@@ -33,28 +33,28 @@ const CartItemSchema = new Schema({
         type: String,
         required: true,
         enum: {
-            values: ['pending','complete','returned','rejected','accepted'],
+            values: ['pending', 'accepted', 'complete', 'shipped', 'rejected'],
             message: '{VALUE} is not a valid status'
         },
         default: 'pending'
-    },   
+    },
     completedOn: {
         type: Date,
         required: false
     },
-    orderCode: {
+    orderId: {
         type: String,
         required: false
     },
     customerId: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
         required: true
     }
 }, {
     timestamps: true
 });
 
-const CartItemModel = model('Cart', CartItemSchema); //
+const CartItemModel = model('cart', CartItemSchema);
 
 module.exports = CartItemModel;
