@@ -9,9 +9,9 @@ const app = express();
 app.use(express.json());
 
 var corsOptions = {
-    origin: ['http://localhost:3000', process.env.CLIENT_ADDRESS ],
-    method: 'GET, POST, PUT, DELETE',
-    allowedHeaders: 'Contect-Type, Authorization' // some legacy browsers (IE11, various SmartTVs) choke on 204
+    origin: ['http://localhost:3000', process.env.CLIENT_ADDRESS],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Authorization', 'Content-Type'] // Include Content-Type
 };
 
 app.use(cors(corsOptions));
