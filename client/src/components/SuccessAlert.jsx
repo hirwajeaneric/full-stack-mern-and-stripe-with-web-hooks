@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 const SuccessAlert = ({ message }) => {
     return (
-        <div role="alert" className="rounded-xl border border-gray-100 bg-white p-4">
+        <div role="alert" className="rounded-xl border border-green-500 bg-green-200 p-4 w-full">
             <div className="flex items-start gap-4">
                 <span className="text-green-600">
                     <svg

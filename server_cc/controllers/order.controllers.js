@@ -21,7 +21,7 @@ const listOrders = async (req, res, next) => {
 
 const clientOrders = async (req, res, next) => {
     try {
-        const orders = await OrderModel.find({ customerId: req.query.customerId });
+        const orders = await OrderModel.find({ customerId: req.query.customerId, status: req.query.status || 'paid' });
         res.status(200).json({ orders: orders });
     } catch (error) {
         next(error);

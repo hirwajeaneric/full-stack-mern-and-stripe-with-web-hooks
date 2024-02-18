@@ -30,7 +30,7 @@ const SimpleUserNavigationBar = () => {
       </Link>
       <Link to={'./orders'} className="flex gap-4 items-center">
         <LuPackage />
-        <p>My Order</p>
+        <p>My Orders</p>
       </Link>
       <button onClick={logout} className="flex gap-4 items-center">
         <BiLogOut />
