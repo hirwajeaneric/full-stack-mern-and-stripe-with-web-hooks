@@ -101,15 +101,16 @@ const completePayment = async (req, res, next) => {
         // Check if there are any existing orders within the last minute
         const recentOrders = customerOrders.filter(order => isWithinLastMinute(order.createdAt));
 
+        var order = {};
         // If no recent orders exist, create a new one
         if (recentOrders.length ===  0) {
             // Computing the total price for items in the order
             const allCartItems = await CartItemModel.find({ customerId: req.query.customerId, status: "pending" });
-            const totalCartPrice = 0;
+            var totalCartPrice = 0;
             allCartItems.forEach(item => totalCartPrice += item.total);
 
             const newOrder = new OrderModel({ customerId: req.query.customerId, totalPrice: totalCartPrice });
-            const order = await newOrder.save();
+            order = await newOrder.save();
 
             const updateCartItems = await CartItemModel.updateMany(
                 { status: "pending", customerId: req.query.customerId }, 
@@ -120,7 +121,7 @@ const completePayment = async (req, res, next) => {
             console.log(updateCartItems);
         }
         // Return the most recent order or an empty array if none exists
-        res.status(200).json({ message: "Payment Complete!"});
+        res.status(200).json({ message: "Payment Complete!", order: order });
     } catch (error) {
 
         next(error);

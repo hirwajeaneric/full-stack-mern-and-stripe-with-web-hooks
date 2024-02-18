@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 
 const serverAddress = import.meta.env.VITE_SERVER_ADDRESS;
 
-const OrderDetails = () => {
+const PurchaseDetails = () => {
   const params = useParams();
   const [order, setOrder] = useState({});
   const [orderItems, setOrderItems] = useState([]);
@@ -22,7 +22,7 @@ const OrderDetails = () => {
   }
 
   const fetchOrderInformation = (userId) => {
-    axios.get(`${serverAddress}/api/v1/cement-swift/order/findById?id=${params.orderId}`)
+    axios.get(`${serverAddress}/api/v1/cement-swift/order/findById?id=${params.purchaseId}`)
       .then((response) => {
         if (response.status === 200) {
           setOrder(response.data.order);
@@ -41,7 +41,7 @@ const OrderDetails = () => {
 
   return (
     <div className="flex flex-col justify-start items-start gap-5">
-      <h1 className="text-2xl font-semibold">Order {params.orderId}</h1>
+      <h1 className="text-2xl font-semibold">Purchase {params.orderId}</h1>
       <div className="list_of_orders flex flex-col border-1 border-gray-400 w-full gap-5">
         <p>Id: {order._id}</p>
         <p>Ordered on: {new Date(order.createdAt).toDateString()}</p>
@@ -66,4 +66,4 @@ const OrderDetails = () => {
   )
 }
 
-export default OrderDetails
+export default PurchaseDetails

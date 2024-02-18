@@ -31,6 +31,7 @@ import ForgotPasswordAdmin from "./pages/admin_pages/authentication/ForgotPasswo
 import Purchases from "./pages/user_restricted_pages/Purchases";
 import Success from "./pages/user_restricted_pages/Success";
 import CheckoutForm from "./components/CheckoutForm";
+import PurchaseDetails from "./pages/user_restricted_pages/PurchaseDetails";
 
 const App = () => {
   return (
@@ -55,6 +56,7 @@ const App = () => {
               <Route path="" element={<Orders />} />
               <Route path="profile" element={<Profile />} />
               <Route path="purchases" element={<Purchases />} />
+              <Route path="purchase/:purchaseId" element={<PurchaseDetails />} />
               <Route path="orders" element={<Orders />} />
               <Route path="order/:orderId" element={<OrderDetails />} />
             </Route>

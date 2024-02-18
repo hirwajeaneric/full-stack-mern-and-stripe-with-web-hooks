@@ -7,6 +7,7 @@ const clientAddress = import.meta.env.VITE_CLIENT_ADDRESS;
 
 const Success = () => {
     const [loading, setLoading] = useState(true);
+    const [order, setOrder] = useState({});
 
     const handleConfirmation = useCallback(() => {
         // Retrieve user info from local storage
@@ -19,6 +20,7 @@ const Success = () => {
             )
             .then((response) => {
                 console.log(response.data);
+                setOrder(response.data.order)
             })
             .catch((error) => {
                 console.log("Error: ", error);
@@ -56,12 +58,12 @@ const Success = () => {
                 <h1 className="text-4xl font-bold">Thank you for your order!</h1>
                 <p className="mt-1 text-base text-gray-700">You will recieve a confirmation email shortly.</p>
                 <div className="flex w-full gap-4 justify-center items-center flex-wrap">
-                    <Link
-                        to={"/account/order/34asdf843j0jasdf0asd"}
+                    {order._id && <Link
+                        to={`/account/order/${order._id}`}
                         className="w-full md:w-1/4 block rounded bg-black px-12 py-3 text-base text-center mt-6 font-normal text-white hover:bg-slate-700 focus:outline-none focus:ring active:bg-slate-500"
                     >
                         View order
-                    </Link>
+                    </Link>}
                     <Link
                         to={'/account/orders'}
                         className="w-full md:w-1/4 rounded px-12 py-3 text-base text-center mt-6 font-normal text-black hover:bg-slate-100 focus:outline-none focus:ring active:bg-slate-500 border-black border-2"
