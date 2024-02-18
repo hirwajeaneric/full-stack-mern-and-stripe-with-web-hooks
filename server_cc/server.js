@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 
 var corsOptions = {
-    origin: ['http://localhost:3000', process.env.CLIENT_ADDRESS],
+    origin: [process.env.CLIENT_ADDRESS],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Authorization', 'Content-Type'] // Include Content-Type
 };

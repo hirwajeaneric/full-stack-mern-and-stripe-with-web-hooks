@@ -1,10 +1,10 @@
 const CartItemModel = require('../models/cart.model');
-const { v4: uuidv4 } = require('uuid');
+const OrderModel = require('../models/order.model');
 
 const addCartItem = async (req, res, next) => {
     try {
         const itemExists = await CartItemModel.findOne({
-            productName: req.body.productName, 
+            productName: req.body.productName,
             customerId: req.body.customerId,
             status: 'pending'
         });
@@ -12,7 +12,7 @@ const addCartItem = async (req, res, next) => {
         if (itemExists) {
             var newQuantity = itemExists.quantity + 1;
             var newTotal = itemExists.total + req.body.price;
-            
+
             const updatedCartItem = await CartItemModel.findByIdAndUpdate(
                 itemExists._id,
                 {
@@ -52,6 +52,15 @@ const listItems = async (req, res, next) => {
     }
 };
 
+const findByOrderId = async (req, res, next) => {
+    try {
+        const items = await CartItemModel.find({ customerId: req.query.customerId, orderId: req.query.orderId });
+        res.status(200).json({ items });
+    } catch (error) {
+        next(error);
+    }
+};
+
 const listAllItems = async (req, res, next) => {
     try {
         const items = await CartItemModel.find();
@@ -78,19 +87,48 @@ const updateCartItem = async (req, res, next) => {
     }
 };
 
-const completePayment = async (req, res) => {
+function isWithinLastMinute(date) {
+    const now = new Date();
+    const oneMinuteAgo = new Date(now.getTime() -  60000); // Subtract one minute in milliseconds
+    return date >= oneMinuteAgo;
+}
+
+const completePayment = async (req, res, next) => {
     try {
-        const orderId = uuidv4();
-        const confirmedItems = await CartItemModel.updateMany({ customerId: req.query.customerId }, { $set: { status: 'complete', orderId: orderId } });
-        if (confirmedItems) {
-            res.status(200).json({ message: 'Payment confirmed' });
+        // Retrieve all orders for the customer
+        const customerOrders = await OrderModel.find({ customerId: req.query.customerId });
+
+        // Check if there are any existing orders within the last minute
+        const recentOrders = customerOrders.filter(order => isWithinLastMinute(order.createdAt));
+
+        // If no recent orders exist, create a new one
+        if (recentOrders.length ===  0) {
+            // Computing the total price for items in the order
+            const allCartItems = await CartItemModel.find({ customerId: req.query.customerId, status: "pending" });
+            const totalCartPrice = 0;
+            allCartItems.forEach(item => totalCartPrice += item.total);
+
+            const newOrder = new OrderModel({ customerId: req.query.customerId, totalPrice: totalCartPrice });
+            const order = await newOrder.save();
+
+            const updateCartItems = await CartItemModel.updateMany(
+                { status: "pending", customerId: req.query.customerId }, 
+                { $set: {
+                    status: "complete",
+                    orderId: order._id,
+                }});
+            console.log(updateCartItems);
         }
+        // Return the most recent order or an empty array if none exists
+        res.status(200).json({ message: "Payment Complete!"});
     } catch (error) {
+
         next(error);
     }
 };
 
 
+  
 const deleteCart = async (req, res, next) => {
     try {
         const deletedItem = await CartItemModel.findByIdAndDelete(req.query.id);
@@ -108,6 +146,7 @@ module.exports = {
     addCartItem,
     listItems,
     listAllItems,
+    findByOrderId,
     completePayment,
     updateCartItem,
     deleteCart

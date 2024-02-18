@@ -15,7 +15,7 @@ import SignUp from "./pages/public_pages/SignUp";
 import ResetPassword from "./pages/public_pages/ResetPassword";
 import ForgotPassword from "./pages/public_pages/ForgotPassword";
 import UserPages from "./pages/user_restricted_pages/UserPages";
-import Orders from "./pages/user_restricted_pages/orders";
+import Orders from "./pages/user_restricted_pages/Orders";
 import Profile from "./pages/user_restricted_pages/Profile";
 import DashboardMainPage from "./pages/admin_pages/DashboardMainPage";
 import OrderDetails from "./pages/user_restricted_pages/OrderDetails";

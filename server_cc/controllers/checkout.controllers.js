@@ -1,4 +1,4 @@
-const stripe = require('stripe')('sk_test_51OXVUEJ0gOzWqZK5achNSoS4RyBoRiyapu41GA2h3bZnQwAWK8M1oSgu1TStrCnqgAcCaUnTC05uJQJ3dSMrZ9xT00Xi7ocwGG');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const createPaymentIntent = async (items, amount) => {
   const customer = await stripe.customers.create();

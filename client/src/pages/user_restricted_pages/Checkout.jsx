@@ -21,7 +21,7 @@ const Checkout = () => {
         setClientSecret(response.data.client_secret);
       })
       .catch((error) => {
-        console.log('Error :', error);
+        console.log('Error :', error.message);
       });
   }, []);
 

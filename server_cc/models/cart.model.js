@@ -33,7 +33,7 @@ const CartItemSchema = new Schema({
         type: String,
         required: true,
         enum: {
-            values: ['pending', 'accepted', 'complete', 'shipped', 'rejected'],
+            values: ['pending', 'complete'],
             message: '{VALUE} is not a valid status'
         },
         default: 'pending'
@@ -43,7 +43,8 @@ const CartItemSchema = new Schema({
         required: false
     },
     orderId: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'order',
         required: false
     },
     customerId: {
