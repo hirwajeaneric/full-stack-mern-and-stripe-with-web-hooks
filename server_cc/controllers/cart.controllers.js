@@ -52,6 +52,15 @@ const listItems = async (req, res, next) => {
     }
 };
 
+const findByOrderId = async (req, res, next) => {
+    try {
+        const items = await CartItemModel.find({ customerId: req.query.customerId, orderId: req.query.orderId });
+        res.status(200).json({ items });
+    } catch (error) {
+        next(error);
+    }
+};
+
 const listAllItems = async (req, res, next) => {
     try {
         const items = await CartItemModel.find();
@@ -94,7 +103,12 @@ const completePayment = async (req, res, next) => {
 
         // If no recent orders exist, create a new one
         if (recentOrders.length ===  0) {
-            const newOrder = new OrderModel({ customerId: req.query.customerId });
+            // Computing the total price for items in the order
+            const allCartItems = await CartItemModel.find({ customerId: req.query.customerId, status: "pending" });
+            const totalCartPrice = 0;
+            allCartItems.forEach(item => totalCartPrice += item.total);
+
+            const newOrder = new OrderModel({ customerId: req.query.customerId, totalPrice: totalCartPrice });
             const order = await newOrder.save();
 
             const updateCartItems = await CartItemModel.updateMany(
@@ -103,6 +117,7 @@ const completePayment = async (req, res, next) => {
                     status: "complete",
                     orderId: order._id,
                 }});
+            console.log(updateCartItems);
         }
         // Return the most recent order or an empty array if none exists
         res.status(200).json({ message: "Payment Complete!"});
@@ -111,6 +126,7 @@ const completePayment = async (req, res, next) => {
         next(error);
     }
 };
+
 
   
 const deleteCart = async (req, res, next) => {
@@ -130,6 +146,7 @@ module.exports = {
     addCartItem,
     listItems,
     listAllItems,
+    findByOrderId,
     completePayment,
     updateCartItem,
     deleteCart

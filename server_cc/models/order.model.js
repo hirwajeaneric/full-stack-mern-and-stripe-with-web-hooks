@@ -10,6 +10,10 @@ const OrderSchema = new Schema({
         },
         default: 'paid'
     },
+    totalPrice: {
+        type: Number,
+        required: true
+    },
     paidOn: {
         type: Date,
         required: true,
