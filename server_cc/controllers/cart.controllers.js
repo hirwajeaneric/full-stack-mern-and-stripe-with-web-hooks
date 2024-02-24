@@ -118,7 +118,6 @@ const completePayment = async (req, res, next) => {
                     status: "complete",
                     orderId: order._id,
                 }});
-            console.log(updateCartItems);
         }
         // Return the most recent order or an empty array if none exists
         res.status(200).json({ message: "Payment Complete!", order: order });

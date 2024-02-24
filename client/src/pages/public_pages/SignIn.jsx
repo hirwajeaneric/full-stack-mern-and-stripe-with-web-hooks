@@ -149,7 +149,7 @@ const SignIn = () => {
                   onChange={()=> setShowPassword(current => !current)}
                   className="p-3 rounded"
                 />
-                <label htmlFor="PasswordConfirmation" className="ml-4 text-sm font-medium text-gray-700">Show Password</label>
+                <label htmlFor="showPassword" className="ml-4 text-sm font-medium text-gray-700">Show Password</label>
               </div>
 
               <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
