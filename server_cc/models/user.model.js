@@ -21,7 +21,7 @@ const useSchema = new Schema({
         type: String,
         required: true,
         enum: {
-            values: ['client', 'admin'],
+            values: ['client', 'admin', 'deliverer'],
             message: 'Role must be client or admin'
         },
         default: 'client'

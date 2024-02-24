@@ -13,6 +13,8 @@ const SignIn = () => {
   const [message, setMessage] = useState({ title: "", description: "" });
   const [error, setError] = useState({ title: "", description: "" });
   const [user, setUser] = useState({ email: '', password: ''});
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLaoding] = useState(false);
 
   const clearInputs = () => {
     setUser({ email: '', password: '' });
@@ -123,20 +125,31 @@ const SignIn = () => {
                   name="email"
                   value={user.email || ''}
                   onChange={handleInputs}
-                  className="mt-1 w-full p-3 rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="mt-1 w-full p-3 rounded-md border border-slate-900 bg-white text-sm text-gray-700 shadow-sm"
                 />
               </div>
 
               <div className="col-span-6">
                 <label htmlFor="Password" className="block text-sm font-medium text-gray-700"> Password </label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" :"password"}
                   id="Password"
                   name="password"
                   value={user.password || ''}
                   onChange={handleInputs}
-                  className="mt-1 w-full p-3 rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="mt-1 w-full p-3 rounded-md border border-slate-900 bg-white text-sm text-gray-700 shadow-sm"
                 />
+              </div>
+
+              <div className="col-span-6">
+                <input
+                  type="checkbox"
+                  id="showPassword"
+                  name="showPassword"
+                  onChange={()=> setShowPassword(current => !current)}
+                  className="p-3 rounded"
+                />
+                <label htmlFor="PasswordConfirmation" className="ml-4 text-sm font-medium text-gray-700">Show Password</label>
               </div>
 
               <div className="col-span-6 sm:flex sm:items-center sm:gap-4">

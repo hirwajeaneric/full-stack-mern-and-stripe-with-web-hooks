@@ -9,6 +9,7 @@ const serverAddress = import.meta.env.VITE_SERVER_ADDRESS;
 const SignUp = () => {
   const navigate = useNavigate();
   const [searchParams, setSetSearchParams] = useSearchParams();
+  const [showPassword, setShowPassword] = useState(false);
 
   const [message, setMessage] = useState({ title: "", description: "" });
   const [error, setError] = useState({ title: "", description: "" });
@@ -48,9 +49,9 @@ const SignUp = () => {
       return;
     } else {
       const { confirmPassword, ...rest } = user;
-    
-      setError({ title: '', description:''});
-     
+
+      setError({ title: '', description: '' });
+
       axios.post(`${serverAddress}/api/v1/cement-swift/auth/signup`, rest)
         .then((response) => {
           if (response.status === 201) {
@@ -133,7 +134,7 @@ const SignUp = () => {
                   required
                   value={user.fullName || ''}
                   onChange={handleInputs}
-                  className="mt-1 w-full p-3 rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="mt-1 w-full p-3 rounded-md border border-slate-900 bg-white text-sm text-gray-700 shadow-sm"
                 />
               </div>
 
@@ -143,10 +144,12 @@ const SignUp = () => {
                   type="tel"
                   id="phone"
                   name="phone"
+                  maxLength={10}
+                  minLength={10}
                   required
                   value={user.phone || ''}
                   onChange={handleInputs}
-                  className="mt-1 w-full p-3 rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="mt-1 w-full p-3 rounded-md border border-slate-900 bg-white text-sm text-gray-700 shadow-sm"
                 />
               </div>
 
@@ -159,34 +162,46 @@ const SignUp = () => {
                   required
                   value={user.email || ''}
                   onChange={handleInputs}
-                  className="mt-1 w-full p-3 rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="mt-1 w-full p-3 rounded-md border border-slate-900 bg-white text-sm text-gray-700 shadow-sm"
                 />
               </div>
 
               <div className="col-span-6">
                 <label htmlFor="Password" className="block text-sm font-medium text-gray-700"> Password </label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="Password"
                   name="password"
+                  minLength={8}
                   required
                   value={user.password || ''}
                   onChange={handleInputs}
-                  className="mt-1 w-full p-3 rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="mt-1 w-full p-3 rounded-md border border-slate-900 bg-white text-sm text-gray-700 shadow-sm"
                 />
               </div>
 
               <div className="col-span-6">
                 <label htmlFor="PasswordConfirmation" className="block text-sm font-medium text-gray-700">Password Confirmation</label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="PasswordConfirmation"
                   name="confirmPassword"
                   required
                   value={user.confirmPassword || ''}
                   onChange={handleInputs}
-                  className="mt-1 w-full p-3 rounded-md border-slate-500 bg-white text-sm text-gray-700 shadow-sm"
+                  className="mt-1 w-full p-3 rounded-md border border-slate-900 bg-white text-sm text-gray-700 shadow-sm"
                 />
+              </div>
+
+              <div className="col-span-6">
+                <input
+                  type="checkbox"
+                  id="showPassword"
+                  name="showPassword"
+                  onChange={() => setShowPassword(current => !current)}
+                  className="p-3 rounded"
+                />
+                <label htmlFor="PasswordConfirmation" className="ml-4 text-sm font-medium text-gray-700">Show Password</label>
               </div>
 
               <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
@@ -196,10 +211,10 @@ const SignUp = () => {
 
                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
                   Already have an account?
-                  {searchParams.get("redirect")? 
-                  <a href={`/signin?redirect=${searchParams.get("redirect")}`} className="text-gray-700 underline">Log in</a>
-                  : 
-                  <a href="/signin" className="text-gray-700 underline">Log in</a>
+                  {searchParams.get("redirect") ?
+                    <a href={`/signin?redirect=${searchParams.get("redirect")}`} className="text-gray-700 underline">Log in</a>
+                    :
+                    <a href="/signin" className="text-gray-700 underline">Log in</a>
                   }.
                 </p>
               </div>
