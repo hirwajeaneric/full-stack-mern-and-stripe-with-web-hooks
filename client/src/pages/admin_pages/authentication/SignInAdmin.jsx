@@ -35,14 +35,15 @@ const SignInAdmin = () => {
     axios.post(`${serverAddress}/api/v1/cement-swift/auth/signin`, user)
       .then((response) => {
         if (response.status === 200) {
-
+          console.log(response.data);
           setMessage({
             title: "Success",
             description: response.data.message
           });
 
-          localStorage.setItem('user', JSON.stringify(response.data.user));
-
+          localStorage.setItem('admin', JSON.stringify(response.data.user));
+          localStorage.setItem('admin_token', response.data.token);
+          
           clearInputs();
 
           setTimeout(() => {

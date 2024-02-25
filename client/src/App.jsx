@@ -74,7 +74,7 @@ const App = () => {
           <Route path="/admin/forgot-password" element={<ForgotPasswordAdmin />} />
 
           {/* Dashboard Pages  */}
-          <Route path="/dashboard" element={!localStorage.getItem('user') ? <DashboardMainPage /> : <Navigate replace to={'/admin/signin'} />}>
+          <Route path="/dashboard" element={localStorage.getItem('admin_token') ? <DashboardMainPage /> : <Navigate replace to={'/admin/signin'} />}>
             <Route path="" element={<DashBoardHome />} />
             <Route path="clients" element={<ClientsDash />} />
             <Route path="orders" element={<OrdersDash />} />
