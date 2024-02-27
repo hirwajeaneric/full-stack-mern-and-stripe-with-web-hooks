@@ -22,7 +22,7 @@ const AdminSideMenuBar = () => {
             <div className="flex h-screen flex-col justify-between border-e bg-white">
                 <div className="px-4 py-6">
                     <span className="grid h-10 place-content-start">
-                    <Link to={'/    '} className="text-3xl font-extrabold">Cement Swift</Link>
+                    <Link to={'/'} className="text-3xl font-extrabold inline-block">Cement Swift</Link>
                     </span>
 
                     <ul className="mt-6 space-y-1">

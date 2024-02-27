@@ -53,7 +53,7 @@ const App = () => {
             <Route path="success" element={<Success />} />
 
             {/* User-specific and restricted pages  */}
-            <Route path="account" element={<UserPages />}>
+            <Route path="account" element={localStorage.getItem('user') ? <UserPages /> : <Navigate replace to={'/signin'} />}>
               <Route path="" element={<Orders />} />
               <Route path="profile" element={<Profile />} />
               <Route path="purchases" element={<Purchases />} />
